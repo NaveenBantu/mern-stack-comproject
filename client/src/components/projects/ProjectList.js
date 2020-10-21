@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from "react";
 // import { Container } from "reactstrap";
 import { Table, Pagination } from "semantic-ui-react";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
+// import { CSSTransition, TransitionGroup } from "react-transition-group";
+import {useHistory} from "react-router-dom";
 
 import ProjectPageSizeSelect from "./ProjectPageSizeSelect";
 
@@ -72,8 +73,11 @@ const ProjectList = ({ projects }) => {
     requestSort(clickedColumn);
   }
 
-  const handleClick = (id) => {
+  const history = useHistory();
+  const routeChange = (id) => {
     console.log("clicked on row ",id);
+    let path = "/project/"+id;
+    history.push(path);
   }
 
   const handleChangePage = (e, { activePage }) => {
@@ -100,7 +104,7 @@ const ProjectList = ({ projects }) => {
         <Table.Body>
           {currentProjects.map((project, index) => {
             return (
-              <Table.Row key={project._id} onClick={()=>handleClick(project["System Name"])}>
+              <Table.Row key={project._id} onClick={()=>routeChange(project["System Name"])}>
                 <Table.Cell>{indexOfFirstProject + index + 1}</Table.Cell>
                 <Table.Cell>{project["Project Name"]}</Table.Cell>
                 <Table.Cell>{project["System Name"]}</Table.Cell>
