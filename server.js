@@ -4,6 +4,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
+const path = require('path');
 
 const connectDB = require('./config/db');
 
@@ -23,6 +24,13 @@ const app = express();
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+
+// assigning static loading
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+app.get('/', function(req,res,next){
+  res.sendFile(path.join(__dirname,'client/build','index.html'));
+});
 
 // Use Routes (anything that points to the projects link should refer to the projects api js file)
 app.use('/api/projects', projects);
